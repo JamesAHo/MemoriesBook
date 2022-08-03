@@ -1,5 +1,2 @@
- CREATE DATABASE memories_db; 
-
- USE memories_db; 
-
- 
+DROP DATABASE IF EXISTS memories_db;
+CREATE DATABASE memories_db;
