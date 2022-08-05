@@ -10,6 +10,7 @@ const db = {};
 db.sequelize = sequelize;
 db.models = {};
 db.models.User = require("./User")(sequelize, Sequelize.DataTypes)
+// make new model
 
 
 module.exports = db;
