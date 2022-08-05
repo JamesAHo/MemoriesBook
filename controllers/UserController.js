@@ -1,4 +1,7 @@
-const User = require('../models/User');
+const { models: { User} } = require('../models')
+const bcrypt = require('bcrypt');
+const db = require('../models');
+
 
 const allUsers =  async( req, res) => {
     await res.render('home')
@@ -9,6 +12,31 @@ const UserForm =  async( req, res) => {
 const LoginPage =  async( req, res) => {
     await res.render('login')
 }
+// Register
+const RegisterPage = async( req, res) => {
+    await res.render('register')
+}
+const Signup = async ( req, res) => {
+    try {
+        const hashedPassword = await bcrypt.hash(req.body.password, 10);
+    User.create({
+        name: req.body.name,
+        username:req.body.username,
+        email: req.body.email,
+        password: hashedPassword,
+    })
+    console.log("Successfully saved")
+     res.redirect("/loggedin")
+    } catch (error) {
+        res.redirect("/register")
+        console.log("not saved into database")
+    }
+    
+}
+// Log in Handle
+const LoggedInPage = async( req, res) => {
+    await res.render("loggedin")
+}
 // save user data
 const saveUser = async( req, res) => {
     const {name, email, phone} = await req.body;
@@ -18,6 +46,9 @@ const saveUser = async( req, res) => {
     console.log(user)
    res.redirect('/')
 }
+
+
+
+
 module.exports = 
-{allUsers,UserForm,saveUser, LoginPage
-}
+{allUsers,UserForm,LoginPage, RegisterPage, Signup, LoggedInPage}
