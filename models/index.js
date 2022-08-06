@@ -10,6 +10,10 @@ const db = {};
 db.sequelize = sequelize;
 db.models = {};
 db.models.User = require("./User")(sequelize, Sequelize.DataTypes)
+db.models.Post = require("./Post")(sequelize, Sequelize.DataTypes)
+// make new model
+
+
 
 
 module.exports = db;

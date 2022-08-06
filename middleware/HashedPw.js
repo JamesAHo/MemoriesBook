@@ -10,3 +10,4 @@ const PasswordSecurity = async (req , res ) => {
 }
 
 module.exports = { PasswordSecurity }
+
