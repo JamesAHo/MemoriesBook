@@ -1,4 +1,5 @@
-const { models: { User} } = require('../models')
+//const { models: { User,} } = require('../models/')
+const { User,}  = require('../models/')
 const bcrypt = require('bcrypt');
 const db = require('../models');
 

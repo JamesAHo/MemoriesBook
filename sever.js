@@ -3,9 +3,9 @@ const express = require("express");
 const app = express();
 const router = require("./controllers/routes/index");
 const exphbs = require('express-handlebars');
-const sequelize = require("sequelize");
-const db = require("./models")
-const bodyParser = require('body-parser');
+const sequelize = require("./config/connection");
+//const db = require("./models")
+//const bodyParser = require('body-parser');
 
 
 
@@ -22,7 +22,7 @@ app.set("view engine", "hbs");
 // init all routes
 app.use(router);
 // call sync() method 
-(async () => {  await db.sequelize.sync({force:true}); })();
+(async () => {  await sequelize.sync({force:false}); })();
 
 
 // ENDED SYNC AND ROLE CREATION
