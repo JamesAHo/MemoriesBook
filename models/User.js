@@ -1,4 +1,4 @@
-
+const bcrypt = require('bcrypt');
 
 // Using Define model method
 module.exports = (sequelize, DataTypes) => {

@@ -11,10 +11,11 @@ const SavePost = async( req, res) => {
         const post =  await new Post(req.body)
          post.save(() => {
             // save data then redirect to main page
+            return res.render("/posts/index");
             
             
         })
-        res.redirect("/")
+        res.redirect("/posts/index")
     } catch (error) {
         
 
@@ -29,12 +30,21 @@ const CreatePost =  async (req, res) =>{
 const FindPosts = async (req, res) => {
     try {
         const posts = await Post.findAll({raw:true});
+        // lead to page that shows all user's posts
         return res.render('posts-index', {posts})
     } catch (error) {
-        console.log(error.message)
+        return console.log(error.message)
     }
 }
-
+// Single User's Post
+const UserPostPage = async (req, res) =>{
+    try {
+        const posts = await Post.findByPk((req.params.id),{raw:true});
+        return res.render('posts-show', {posts})
+    } catch (error) {
+        return console.log(error.message)
+    }
+}
 
 const allUsers =  async( req, res) => {
     await res.render('home')
@@ -86,7 +96,10 @@ const LoggedInPage = async( req, res) => {
     // do query
     await res.render("loggedin")
 }
-// save user data
+const LoginVerification =  async ( req, res) => {
+    
+}
+// save user data\
 const saveUser = async( req, res) => {
     const {name, email, phone} = await req.body;
     const user = await User.create({
@@ -100,4 +113,4 @@ const saveUser = async( req, res) => {
 
 
 module.exports = 
-{allUsers,UserForm,LoginPage, RegisterPage, RegisterHandle, LoggedInPage, checkNotAuthenticated, SavePost, CreatePost,FindPosts}
+{allUsers,UserForm,LoginPage, RegisterPage, RegisterHandle, LoggedInPage, checkNotAuthenticated, SavePost, CreatePost,FindPosts,UserPostPage, LoginVerification}

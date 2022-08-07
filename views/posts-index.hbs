@@ -3,8 +3,9 @@
     <ul>
       {{#each posts}}
         <li class="list-group-item">
-          <div class="lead">Title:{{this.title}}</div>
-          <a href="{{this.summary}}" target="_blank">{{this.summary}}</a>
+          <div class="lead"><a href="/posts/{{this.id}}">{{this.title}}</a></div>
+          <a href="{{this.summary}}" target="_blank">{{this.id}}</a>
+          <p>{{this.summary}}</p>
         </li>
       {{/each}}
     </ul>

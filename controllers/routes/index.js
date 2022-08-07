@@ -7,7 +7,7 @@ const Post = require('../../models/Post');
 
 
 
-const {allUsers, UserForm, RegisterHandle, LoginPage, RegisterPage, LoggedInPage, checkNotAuthenticated, SavePost, CreatePost, FindPosts} = require("../UserController")
+const {allUsers, UserForm, RegisterHandle, LoginPage, RegisterPage, LoggedInPage, checkNotAuthenticated, SavePost, CreatePost, FindPosts,UserPostPage, LoginVerification} = require("../UserController")
 
 router.get("/",(req, res) => {
     res.json({message: "welcome to page"})
@@ -17,11 +17,13 @@ router.get("/posts/new", CreatePost)
 router.post("/posts/new", SavePost)
 // View all posts
 router.get("/posts/index", FindPosts);
+// View Specific single user posts
+router.get("/posts/:id",UserPostPage)
 
 
 // Login Handle
 router.get('/login', LoginPage)
-router.post('/login',) // Missing Post method to log in
+router.post('/login',LoginVerification )// Missing Post method to log in
 
 //HomePage
 router.get('/home', allUsers); 
