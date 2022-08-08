@@ -1,17 +1,39 @@
-<h1>Create Memories</h1>
-<a class="btn btn-primary" href="/">Memories feeds</a>
-<form action="/create" method="POST">
+<link rel="stylesheet" href="/css/create.css">
+
+<nav class="navbar">
+        <div class="nav-wrapper">
+            
+            
+        </div>
+</nav>
+<form action method="post">
+
+<div class="image">
+  <h1><strong>Create Memories</strong></h1>
+  
   <div class="form-group">
-    <label for="exampleInputEmail1">Name</label>
-    <input type="text" name="name" class="form-control">
+    <label for="caption">Add A Short Description</label>
+    <input type="text" name="caption" id="caption" class="form-controll"/>
   </div>
+  <div class="form-group file-area">
+        <label for="images">Upload Your Memory Here!</label>
+    <input type="file" name="images" id="images" required="required" multiple="multiple"/>
+    <div class="file-dummy">
+      <div class="default">Please select some files</div>
+    </div>
+  </div>
+  
   <div class="form-group">
-    <label for="exampleInputEmail1">Email/label>
-    <input type="email" name="email" class="form-control">
+    <button type="submit">Upload images</button>
   </div>
-  <div class="form-group">
-    <label for="exampleInputEmail1">Phone</label>
-    <input type="text" name="phone" class="form-control">
-  </div>
-  <button type="submit" class="btn btn-primary">Create Memories</button>
+</div>
 </form>
+
+
+
+
+
+
+<link href='https://fonts.googleapis.com/css?family=Lato:100,200,300,400,500,600,700' rel='stylesheet' type='text/css'>
+
+<a href="/loggedin" class="back-to-article" target="_blank">back to Home Page</a>
