@@ -1,6 +1,9 @@
 const bcrypt = require('bcrypt');
+const { Sequelize, DataTypes } = require('sequelize');
 
-// Using Define model method
+const sequelize = require('../config/connection');
+
+//Using Define model method
 module.exports = (sequelize, DataTypes) => {
 
     const User = sequelize.define("user", {
@@ -8,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.INTEGER,
             primaryKey: true,
             autoIncrement: true,
+            allowNull: false,
             
         },
         name: {
@@ -33,8 +37,32 @@ module.exports = (sequelize, DataTypes) => {
        
         
     },
-     {
-        freezeTableName: false,
-     })
+    {
+        tableName: "user",
+        hooks: {
+            beforeSave: function(req, res,next) {
+                const user = this;
+                if (!user.findOne({where: {password: "password" }})) {
+                    return next();
+                }
+                bcrypt.genSalt(10, (err, salt) => {
+                    bcrypt.hash(user.password, salt, (_, hash) =>{
+                        user.password = hash;
+                        
+                    })
+                })
+            }
+        }
+            
+    }
+    );
+    User.prototype.ComparePassword = function(password, done)  {
+        bcrypt.compare(password, this.password, (err, isMatch) =>{
+            done(err, isMatch)
+        });
+    }
+    
      return User;
 }
+
+   

@@ -5,7 +5,10 @@
 module.exports = (sequelize, DataTypes) => {
 
     const Post = sequelize.define("posts", {
-      
+        name: {
+            type: DataTypes.STRING,
+            required: true,
+        },
         title: {
             type: DataTypes.STRING,
             required: true,
@@ -15,11 +18,21 @@ module.exports = (sequelize, DataTypes) => {
             required: true,
             
         },
+        user_id: {
+            type: DataTypes.INTEGER,
+            references: {
+                
+                key:"id",
+            }
+        }
        
         
     },
     {
         timestamps: true,
+    },
+    {
+
     }
     )
      return Post;

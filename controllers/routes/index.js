@@ -3,15 +3,13 @@ const express = require('express');
 const router = express.Router();
 const passport = require("passport");
 const Post = require('../../models/Post');
+const withAuth = require("../../utils/Auth");
 
 
 
+const {allUsers,HomepageHandle, UserForm, RegisterHandle, LoginPage, RegisterPage, LoggedInPage, checkNotAuthenticated, SavePost, CreatePost, FindPosts,UserPostPage, LoginVerification} = require("../UserController")
 
-const {allUsers, UserForm, RegisterHandle, LoginPage, RegisterPage, LoggedInPage, checkNotAuthenticated, SavePost, CreatePost, FindPosts,UserPostPage, LoginVerification} = require("../UserController")
-
-router.get("/",(req, res) => {
-    res.json({message: "welcome to page"})
-})
+router.get("/") //Home Page that User can see page content but can not participate unless logged in
 // Create posts
 router.get("/posts/new", CreatePost)
 router.post("/posts/new", SavePost)
@@ -23,7 +21,7 @@ router.get("/posts/:id",UserPostPage)
 
 // Login Handle
 router.get('/login', LoginPage)
-router.post('/login',LoginVerification )// Missing Post method to log in
+router.post('/login', LoginVerification  ) // Missing Post method to log in
 
 //HomePage
 router.get('/home', allUsers); 
@@ -40,7 +38,16 @@ router.get("/loggedin", LoggedInPage)
 
 // logout
 
-
+router.post('/logout', (req, res) => {
+    if (req.session.logged_in) {
+      req.session.destroy(() => {
+        res.status(204).end();
+      });
+      return res.redirect('/login');
+    } else {
+      res.status(404).end();
+    }
+  });
 
 
 

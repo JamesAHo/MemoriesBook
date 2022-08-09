@@ -8,12 +8,23 @@ const sequelize = new Sequelize(dbConfig.DATABASE, dbConfig.USER, dbConfig.PASSW
 
 const db = {};
 db.sequelize = sequelize;
-db.models = {};
-db.models.User = require("./User")(sequelize, Sequelize.DataTypes)
-db.models.Post = require("./Post")(sequelize, Sequelize.DataTypes)
+// db.models = {};
+db.User = require("./User")(sequelize, Sequelize.DataTypes)
+db.Post = require("./Post")(sequelize, Sequelize.DataTypes)
 // make new model
 
+db.User.hasMany(db.Post, {
+    foreignKey: 'user_id',
+    onDelete: 'CASCADE'
 
+});
+db.Post.belongsTo(db.User,{
+    foreignKey: 'user_id',
+})
+
+db.User.checkPassword = (loginPW) => {
+    return bcrypt.compareSync(loginPW, this.password)
+}
 
 
 module.exports = db;

@@ -1,5 +1,20 @@
-const { models: { User, Post} } = require('../models')
+require("dotenv").config();
+const  { User, Post} = require('../models/index')
+const jwt = require("jsonwebtoken")
+
 const bcrypt = require('bcrypt');
+
+require("dotenv").config();
+
+const mysql = require('mysql2');
+const { response } = require('express');
+// const connection = mysql.createConnection({
+// 	host     : 'localhost',
+// 	user     : 'root',
+// 	password : process.env.DB_PASSWORD,
+// 	database : process.env.DB_NAME
+// });
+
 
 
 
@@ -60,19 +75,24 @@ const RegisterPage = async( req, res) => {
     await res.render('register')
 }
 // RegisterHandle
-const RegisterHandle = async ( req, res) => {
+const RegisterHandle = async ( req, res) =>   {
     try {
-        const hashedPassword = await bcrypt.hash(req.body.password, 10);
-    User.create({
+        const user = new User(req.body);
+    user.save({
          
         name: req.body.name,
         username:req.body.username,
         email: req.body.email,
-        password: hashedPassword,
+        password: req.body.password,
+    }).then((user) => {
+        const token =jwt.sign({_id: user._id}, process.env.SECRET, {expiresIn:"60 days"});
+        res.cookie('nToken', token, {maxAge: 600000, httpOnly: true})
+        console.log(req.body)
+        return  res.redirect("/login")
     })
-    
-    console.log(req.body)
-     res.redirect("/login")
+
+   
+     
     } catch (error) {
         res.redirect("/register")
         console.log("not saved into database")
@@ -96,21 +116,52 @@ const LoggedInPage = async( req, res) => {
     // do query
     await res.render("loggedin")
 }
-const LoginVerification =  async ( req, res) => {
+
+const LoginVerification =  async (req, res) => {
+    // try {
+        
+    //     const hashedPassword = await bcrypt.hash(req.body.password, 10)
+    //     const userEmail = User.findOne({where: {email: req.body.email}});
+    //     !userEmail ? res.status(404): console.log("user not found");
+    //     const userPassword = User.findOne({where: {password: req.body.password}});
+    //     const passwordIsValid = bcrypt.hash(req.body.password);
+        
+    //     passwordIsValid != userPassword? res.status(401) : console.log("wrong password")
+    //     console.log("Failed to compare password")
+    // } catch (error) {
+    //     console.log(error)
+    // }
+    try {
+        // const hashedPassword = await bcrypt.hash(req.body.password, 10)
+
+        
+        // !validPassword ? res.status(404).json({ message: "Invalid password"}) : res.redirect("/posts/new");
+        // req.session.save(() => {
+        //     req.session.user_id = userData.id;
+        //     req.session.logged_in = true;
+            
+        //     res.json({ user: userData, message: 'You are now logged in!' });
+        //   });
+          
+    } catch (error) {
+         res.status(404).json(error)
+    }
+}
+
+    
+            
+
+
+
+
+// HomepageHandle
+const HomepageHandle = async (req, res) => {
     
 }
-// save user data\
-const saveUser = async( req, res) => {
-    const {name, email, phone} = await req.body;
-    const user = await User.create({
-        name:name, email:email, phone:phone
-    }).catch(error => console.log(error))
-    console.log(user)
-   res.redirect('/')
-}
+
 
 
 
 
 module.exports = 
-{allUsers,UserForm,LoginPage, RegisterPage, RegisterHandle, LoggedInPage, checkNotAuthenticated, SavePost, CreatePost,FindPosts,UserPostPage, LoginVerification}
+{allUsers,UserForm,LoginPage, RegisterPage, RegisterHandle, LoggedInPage, checkNotAuthenticated, SavePost, CreatePost,FindPosts,UserPostPage, LoginVerification, HomepageHandle}
