@@ -7,7 +7,7 @@ const withAuth = require("../../utils/Auth");
 
 
 
-const {allUsers,HomepageHandle, UserForm, RegisterHandle, LoginPage, RegisterPage, LoggedInPage, checkNotAuthenticated, SavePost, CreatePost, FindPosts,UserPostPage, LoginVerification} = require("../UserController")
+const {LogOut,allUsers,HomepageHandle, UserForm, RegisterHandle, LoginPage, RegisterPage, LoggedInPage, checkNotAuthenticated, SavePost, CreatePost, FindPosts,UserPostPage, LoginVerification} = require("../UserController")
 
 router.get("/") //Home Page that User can see page content but can not participate unless logged in
 // Create posts
@@ -22,6 +22,8 @@ router.get("/posts/:id",UserPostPage)
 // Login Handle
 router.get('/login', LoginPage)
 router.post('/login', LoginVerification  ) // Missing Post method to log in
+// LogOUT Handle
+router.get("/logout",LogOut )
 
 //HomePage
 router.get('/home', allUsers); 

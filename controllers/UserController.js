@@ -159,9 +159,12 @@ const HomepageHandle = async (req, res) => {
     
 }
 
-
+const LogOut = async (req, res) => {
+    res.clearCookie('nToken');
+    return res.redirect('/login');
+}
 
 
 
 module.exports = 
-{allUsers,UserForm,LoginPage, RegisterPage, RegisterHandle, LoggedInPage, checkNotAuthenticated, SavePost, CreatePost,FindPosts,UserPostPage, LoginVerification, HomepageHandle}
+{LogOut,allUsers,UserForm,LoginPage, RegisterPage, RegisterHandle, LoggedInPage, checkNotAuthenticated, SavePost, CreatePost,FindPosts,UserPostPage, LoginVerification, HomepageHandle}
