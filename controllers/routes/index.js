@@ -9,7 +9,10 @@ router.get("/",(req, res) =>{
 })
 // Login Handle
 router.get('/login', LoginPage)
-router.post('/login',) // Missing Post method to log in
+router.post('/login',(req, res) =>{
+    res.json({message:"This is the page the user will be presented with after log in!!!"});
+}) 
+ // Missing Post method to log in
 
 //HomePage
 router.get('/home', allUsers); 
