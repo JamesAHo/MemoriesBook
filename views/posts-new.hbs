@@ -1,0 +1,33 @@
+<li><a href="/posts/new" class="btn btn-primary navbar-btn">New Post</a></li>
+<div class="row">
+  <div class="col-sm-4 col-sm-offset-4">
+    <form action="/posts/new" method="post">
+      <legend>New Post</legend>
+      <a action="/logout" method="get" class="btn btn-primary navbar-btn">Log Out</a>
+      <div class="form-group">
+        <label for="post-title">Title</label>
+        <input
+          type="text"
+          name="title"
+          class="form-control"
+          id="post-title"
+          placeholder="Title"
+        />
+      </div>
+      
+      </div>
+      <div class="form-group">
+        <label for="post-summary">Summary</label>
+        <textarea
+          name="summary"
+          class="form-control"
+          id="post-summary"
+          placeholder="Summary"
+        ></textarea>
+      </div>
+      <div class="text-right">
+        <button type="submit" class="btn btn-primary">Create Post</button>
+      </div>
+    </form>
+  </div>
+</div>

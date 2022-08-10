@@ -1,7 +1,4 @@
-// module.exports = (sequelize, DataTypes) => {
 
-//     const Post = sequelize.define("Post",
-//         {
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../config/connection');
 
@@ -44,6 +41,7 @@ Post.init(
     );
 
     module.exports = Post;
+
 
 
 
