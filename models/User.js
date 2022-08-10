@@ -1,7 +1,4 @@
-// Using Define model method
-// module.exports = (sequelize, DataTypes) => {
 
-//   const User = sequelize.define("user", {
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../config/connection');
 
