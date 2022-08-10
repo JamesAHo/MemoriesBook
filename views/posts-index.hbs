@@ -2,15 +2,19 @@
   <div class="col-sm-8 col-sm-offset-2">
     <ul>
       <a href="/posts/new">Create new Memories</a>
+
+      {{!-- // Make sure to forloop this #each --}}
       {{#each posts}}
         
         <li class="list-group-item">
           <div class="lead"><a href="/posts/{{this.id}}">{{this.title}}</a></div>
-          <a href="{{this.summary}}" target="_blank">{{this.id}}</a>
+          <div>User#: {{this.id}}</div>
           <p>{{this.summary}}</p>
         
         </li>
       {{/each}}
+
+      {{!-- END LOOP --}}
     </ul>
   </div>
 </div>

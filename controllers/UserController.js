@@ -1,13 +1,14 @@
 require("dotenv").config();
-const  { User, Post} = require('../models/index')
+const  { User, Post, Comment} = require('../models')
+
 const jwt = require("jsonwebtoken")
 
 const bcrypt = require('bcrypt');
+const { request } = require("express");
 
 require("dotenv").config();
 
-const mysql = require('mysql2');
-const { response } = require('express');
+
 // const connection = mysql.createConnection({
 // 	host     : 'localhost',
 // 	user     : 'root',
@@ -18,7 +19,22 @@ const { response } = require('express');
 
 
 
+// Comment on Post Handle
+const PostComment = async (req, res, next) => {
+    try {
+        const comment = new Comment(req.body);
+        comment.save().then(() => {
+            Post.findbyId(req.params.id)
+        }).then((posts) => {
+            posts.comments.unshift(comment);
+            return posts.save()
+        }).then(() => res.redirect("/") )
 
+    } catch (error) {
+        console.log(error)
+    }
+    
+}
 
 // PostHandler
 const SavePost = async( req, res) => {
@@ -78,6 +94,7 @@ const RegisterPage = async( req, res) => {
 const RegisterHandle = async ( req, res) =>   {
     try {
         const user = new User(req.body);
+        // const hashedPassword = bcrypt.hash(req.body.password);
     user.save({
          
         name: req.body.name,
@@ -85,7 +102,7 @@ const RegisterHandle = async ( req, res) =>   {
         email: req.body.email,
         password: req.body.password,
     }).then((user) => {
-        const token =jwt.sign({_id: user._id}, process.env.SECRET, {expiresIn:"60 days"});
+        const token = jwt.sign({_id: user._id}, process.env.SECRET, {expiresIn:"60 days"});
         res.cookie('nToken', token, {maxAge: 600000, httpOnly: true})
         console.log(req.body)
         return  res.redirect("/login")
@@ -118,39 +135,37 @@ const LoggedInPage = async( req, res) => {
 }
 
 const LoginVerification =  async (req, res) => {
-    // try {
-        
-    //     const hashedPassword = await bcrypt.hash(req.body.password, 10)
-    //     const userEmail = User.findOne({where: {email: req.body.email}});
-    //     !userEmail ? res.status(404): console.log("user not found");
-    //     const userPassword = User.findOne({where: {password: req.body.password}});
-    //     const passwordIsValid = bcrypt.hash(req.body.password);
-        
-    //     passwordIsValid != userPassword? res.status(401) : console.log("wrong password")
-    //     console.log("Failed to compare password")
-    // } catch (error) {
-    //     console.log(error)
-    // }
-    try {
-        // const hashedPassword = await bcrypt.hash(req.body.password, 10)
-
-        
-        // !validPassword ? res.status(404).json({ message: "Invalid password"}) : res.redirect("/posts/new");
-        // req.session.save(() => {
-        //     req.session.user_id = userData.id;
-        //     req.session.logged_in = true;
-            
-        //     res.json({ user: userData, message: 'You are now logged in!' });
-        //   });
-          
-    } catch (error) {
-         res.status(404).json(error)
-    }
-}
-
     
-            
-
+    try {
+      const userData = await User.findOne({ where: { email: req.body.email } });
+      
+      if (!userData) {
+        res
+          .status(400)
+          .json({ message: 'Incorrect email or password, please try again' });
+        return;
+      }
+      console.log("checkPassword",userData.checkPassword)
+      const validPassword = await userData.checkPassword(req.body.password);
+      console.log(validPassword)
+      if (!validPassword) {
+        res
+          .status(400)
+          .json({ message: 'Incorrect email or password, please try again' });
+        return;
+      }
+  
+      req.session.save(() => {
+        req.session.user_id = userData.id;
+        req.session.logged_in = true;
+        
+        res.json({ user: userData, message: 'You are now logged in!' });
+      });
+  
+    } catch (err) {
+      res.status(400).json(err);
+    }
+  };
 
 
 
@@ -167,4 +182,4 @@ const LogOut = async (req, res) => {
 
 
 module.exports = 
-{LogOut,allUsers,UserForm,LoginPage, RegisterPage, RegisterHandle, LoggedInPage, checkNotAuthenticated, SavePost, CreatePost,FindPosts,UserPostPage, LoginVerification, HomepageHandle}
+{LogOut,allUsers,UserForm,LoginPage, RegisterPage, RegisterHandle, LoggedInPage, checkNotAuthenticated, SavePost, CreatePost,FindPosts,UserPostPage, LoginVerification, HomepageHandle, PostComment}

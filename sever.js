@@ -25,7 +25,7 @@ const sess = {
     })
   };
 
-app.use(session(sess))
+// app.use(session(sess))
 
 
 // PORT set up.

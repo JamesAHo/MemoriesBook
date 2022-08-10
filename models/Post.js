@@ -5,6 +5,12 @@
 module.exports = (sequelize, DataTypes) => {
 
     const Post = sequelize.define("posts", {
+        id: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            primaryKey: true,
+            autoIncrement: true
+        },
         name: {
             type: DataTypes.STRING,
             required: true,
@@ -21,7 +27,7 @@ module.exports = (sequelize, DataTypes) => {
         user_id: {
             type: DataTypes.INTEGER,
             references: {
-                
+                model:"user",
                 key:"id",
             }
         }
