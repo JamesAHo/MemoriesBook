@@ -1,5 +1,7 @@
+
 require("dotenv").config();
 const  { User, Post, Comment} = require('../models')
+
 
 const jwt = require("jsonwebtoken")
 

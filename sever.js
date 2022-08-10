@@ -5,10 +5,13 @@ const app = express();
 const router = require("./controllers/routes/index");
 const exphbs = require('express-handlebars');
 const path = require('path');
-const db = require("./models")
 const session = require("express-session");
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 const sequelize = require('./config/connection');
+
+
+
+
 
 
 const user = require("./models/User");
@@ -42,9 +45,10 @@ app.set("view engine", "hbs");
 app.use(router);
 // call sync() method 
 // (async () => {  await db.sequelize.sync({force:false}); })();
-db.sequelize.sync({force:true}).then(() => {
+sequelize.sync({force:true}).then(() => {
     app.listen(PORT, () => console.log("Now listenting " + PORT))
 })
+
 
 // ENDED SYNC AND ROLE CREATION
 

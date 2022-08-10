@@ -21,12 +21,14 @@ router.get("/posts/:id",UserPostPage)
 
 // Login Handle
 router.get('/login', LoginPage)
+
 router.post('/login',LoginVerification,(req, res) =>{
   console.log("erro")
   res.send(req.session.logged_in)
 })   // Missing Post method to log in
 // LogOUT Handle
 router.get("/logout",LogOut )
+
 
 //HomePage
 router.get('/home', allUsers); 
