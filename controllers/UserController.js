@@ -1,6 +1,39 @@
-const { models: { User} } = require('../models')
+const { models: { User, Post} } = require('../models')
 const bcrypt = require('bcrypt');
-const db = require('../models');
+
+
+
+
+
+// PostHandler
+const SavePost = async( req, res) => {
+    try {
+        const post =  await new Post(req.body)
+         post.save(() => {
+            // save data then redirect to main page
+            
+            
+        })
+        res.redirect("/")
+    } catch (error) {
+        
+
+        console.log("not saved")
+
+    }
+}
+const CreatePost =  async (req, res) =>{
+
+    await res.render("posts-new")
+}
+const FindPosts = async (req, res) => {
+    try {
+        const posts = await Post.findAll({raw:true});
+        return res.render('posts-index', {posts})
+    } catch (error) {
+        console.log(error.message)
+    }
+}
 
 
 const allUsers =  async( req, res) => {
@@ -16,25 +49,41 @@ const LoginPage =  async( req, res) => {
 const RegisterPage = async( req, res) => {
     await res.render('register')
 }
-const Signup = async ( req, res) => {
+// RegisterHandle
+const RegisterHandle = async ( req, res) => {
     try {
         const hashedPassword = await bcrypt.hash(req.body.password, 10);
     User.create({
+         
         name: req.body.name,
         username:req.body.username,
         email: req.body.email,
         password: hashedPassword,
     })
-    console.log("Successfully saved")
-     res.redirect("/loggedin")
+    
+    console.log(req.body)
+     res.redirect("/login")
     } catch (error) {
         res.redirect("/register")
         console.log("not saved into database")
     }
     
 }
+// Auth
+function checkNotAuthenticated(req, res, next) {
+    if (req.isAuthenticated()) {
+      return res.redirect('/')
+    }
+    next()
+  }
+
+
+
+
+
 // Log in Handle
 const LoggedInPage = async( req, res) => {
+    // do query
     await res.render("loggedin")
 }
 // save user data
@@ -51,4 +100,4 @@ const saveUser = async( req, res) => {
 
 
 module.exports = 
-{allUsers,UserForm,LoginPage, RegisterPage, Signup, LoggedInPage}
+{allUsers,UserForm,LoginPage, RegisterPage, RegisterHandle, LoggedInPage, checkNotAuthenticated, SavePost, CreatePost,FindPosts}
