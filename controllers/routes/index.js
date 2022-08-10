@@ -5,7 +5,7 @@ const router = express.Router();
 
 const {allUsers, UserForm, Signup, LoginPage, RegisterPage, LoggedInPage} = require("../UserController")
 router.get("/",(req, res) =>{
-    res.json({message:"Welcome to application"});
+    res.render('home');
 })
 // Login Handle
 router.get('/login', LoginPage)
