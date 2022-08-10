@@ -2,7 +2,7 @@ const { application } = require('express');
 const express = require('express');
 const router = express.Router();
 const passport = require("passport");
-const Post = require('../../models/Post');
+
 const withAuth = require("../../utils/Auth");
 
 
@@ -20,12 +20,9 @@ router.get("/posts/:id",UserPostPage)
 
 
 // Login Handle
-router.get('/login', LoginPage)
+router.get('/login', LoginPage);
 
-router.post('/login',LoginVerification,(req, res) =>{
-  console.log("erro")
-  res.send(req.session.logged_in)
-})   // Missing Post method to log in
+router.post('/login',LoginVerification,)   // Missing Post method to log in
 // LogOUT Handle
 router.get("/logout",LogOut )
 

@@ -96,7 +96,7 @@ const RegisterPage = async( req, res) => {
 const RegisterHandle = async ( req, res) =>   {
     try {
         const user = new User(req.body);
-        // const hashedPassword = bcrypt.hash(req.body.password);
+        
     user.save({
          
         name: req.body.name,
@@ -131,7 +131,7 @@ function checkNotAuthenticated(req, res, next) {
 
 
 // Log in Handle
-const LoggedInPage = async( req, res) => {
+const LoggedInPage = async( req, RegisterPage) => {
     // do query
     await res.render("loggedin")
 }
@@ -147,23 +147,20 @@ const LoginVerification =  async (req, res) => {
           .json({ message: 'Incorrect email or password, please try again' });
         return;
       }
-      console.log("checkPassword",userData.checkPassword)
-      const validPassword = await userData.checkPassword(req.body.password);
-      console.log(validPassword)
-      if (!validPassword) {
-        res
-          .status(400)
-          .json({ message: 'Incorrect email or password, please try again' });
+      // validate password
+      const validatePassword = await userData.checkPassword(req.body.password);
+      if (!validatePassword) {
+        
+        res.status(400).json({messasage:"invalid password"});
         return;
       }
-  
       req.session.save(() => {
         req.session.user_id = userData.id;
         req.session.logged_in = true;
         
         res.json({ user: userData, message: 'You are now logged in!' });
       });
-  
+      return res.render("/posts/index")
     } catch (err) {
       res.status(400).json(err);
     }
@@ -177,6 +174,11 @@ const HomepageHandle = async (req, res) => {
 }
 
 const LogOut = async (req, res) => {
+    if(req.session.logged_in) {
+        req.session.destroy(() =>{
+            res.status(204).end()
+        })
+    }
     res.clearCookie('nToken');
     return res.redirect('/login');
 }

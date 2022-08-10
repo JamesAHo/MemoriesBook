@@ -14,7 +14,7 @@ const sequelize = require('./config/connection');
 
 
 
-const user = require("./models/User");
+
 
 
 // SESSION
@@ -28,7 +28,7 @@ const sess = {
     })
   };
 
-// app.use(session(sess))
+app.use(session(sess))
 
 
 // PORT set up.
@@ -44,8 +44,8 @@ app.set("view engine", "hbs");
 // init all routes
 app.use(router);
 // call sync() method 
-// (async () => {  await db.sequelize.sync({force:false}); })();
-sequelize.sync({force:true}).then(() => {
+
+sequelize.sync({force:false}).then(() => {
     app.listen(PORT, () => console.log("Now listenting " + PORT))
 })
 
