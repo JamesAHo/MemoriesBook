@@ -1,40 +1,54 @@
 
+const { Model, DataTypes } = require('sequelize');
+const sequelize = require('../config/connection');
 
-// Using Define model method
-module.exports = (sequelize, DataTypes) => {
-
-    const User = sequelize.define("user", {
-        id: {
-            type: DataTypes.INTEGER,
-            primaryKey: true,
-            autoIncrement: true,
-            
-        },
-        name: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        },
-        email:{
-            type: DataTypes.STRING,
-            allowNull: false,
-            unique: false,
-            validate: {
-                isEmail: true,
-            }
-        },
-        username: DataTypes.STRING,
-        password: {
-            type: DataTypes.STRING,
-            allowNull: false,
-            validate: {
-                len:[1-10]
-            }
-        },
-       
-        
-    },
-     {
-        freezeTableName: false,
-     })
-     return User;
+class User extends Model {
+  checkPassword(loginPw) {
+    return bcrypt.compareSync(loginPw, this.password);
+  }
 }
+
+User.init(
+  {
+    id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      primaryKey: true,
+      autoIncrement: true,
+    },
+
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+      validate: {
+        isEmail: true,
+      }
+    },
+    username: DataTypes.STRING,
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        len: [10]
+      }
+    },
+    content: DataTypes.STRING,
+
+  },
+  {
+    sequelize,
+    timestamps: false,
+    underscored: true,
+    modelName: 'user',
+    freezeTableName: false,
+  }
+);
+
+module.exports = User;
+
+

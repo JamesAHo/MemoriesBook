@@ -1,19 +1,17 @@
-const dbConfig = require("../config/db-config");
-const Sequelize = require("sequelize");
+const User = require('./User');
+const Post = require('./Post');
 
-const sequelize = new Sequelize(dbConfig.DATABASE, dbConfig.USER, dbConfig.PASSWORD, {
-    host: dbConfig.HOST,
-    dialect: dbConfig.DIALECT
+
+
+User.hasMany(Post, {
+  foreignKey: 'user_id',
+  onDelete: 'CASCADE'
 });
 
-const db = {};
-db.sequelize = sequelize;
-db.models = {};
-db.models.User = require("./User")(sequelize, Sequelize.DataTypes)
-db.models.Post = require("./Post")(sequelize, Sequelize.DataTypes)
-// make new model
 
+Post.belongsTo(User, {
+  foreignKey: 'user_id'
+});
 
+module.exports = { User, Post };
 
-
-module.exports = db;
