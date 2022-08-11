@@ -3,8 +3,8 @@ require('dotenv').config();
 
 let sequelize
 
-if(process.env.AWSDB_LINK) {
-    sequelize = new Sequelize(process.env.AWSDB_LINK);
+if(process.env.JAWSDB_URL) {
+    sequelize = new Sequelize(process.env.JAWSDB_URL);
     console.log("Database is running!");
 } else {
     sequelize = new Sequelize(
