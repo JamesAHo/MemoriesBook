@@ -106,7 +106,7 @@ const RegisterHandle = async ( req, res) =>   {
         email: req.body.email,
         password: req.body.password,
     }).then((user) => {
-        const token = jwt.sign({_id: user._id}, process.env.SECRET, {expiresIn:"60 days"});
+        const token = jwt.sign({_id: user._id},process.env.SECRET, {expiresIn:"60 days"});
         res.cookie('nToken', token, {maxAge: 600000, httpOnly: true})
         console.log(req.body)
         return  res.redirect("/login")
