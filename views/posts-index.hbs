@@ -1,20 +1,32 @@
 <div class="row">
-  <div class="col-sm-8 col-sm-offset-2">
+  <div class="col-sm-8 col-sm-offset-1">
     <ul>
-      <a href="/posts/new">Create new Memories</a>
-
-      {{!-- // Make sure to forloop this #each --}}
+      <a href="/posts/new" class="btn btn-info" role="button">Share Memories</a>
+      {{!-- <a href="/posts/new">Share Your Memories</a> --}}
+      <a method="post" action="/logout" href="/posts/new" class="btn btn-info" role="button">LogOut</a>
+      {{!-- <a method="post" action="/logout" href="/logout">Logout</a> --}}
+      {{! // Make sure to forloop this #each }}
       {{#each posts}}
+
+        <div class="card col-sm-offset-1">
+          <img src="https://xsgames.co/randomusers/avatar.php?g=pixel" class="card-img-top" alt="..." />
+          <div class="card-body">
+            <a href="/posts/{{this.postId}}">{{this.title}}</a>
+            <p class="card-text">{{this.summary}}</p>
+            <p class="card-text"><small class="text-muted">Last updated {{this.createdAt}}</small></p>
+          </div>
+        </div>
         
-        <li class="list-group-item">
-          <div class="lead"><a href="/posts/{{this.id}}">{{this.title}}</a></div>
-          <div>User#: {{this.id}}</div>
-          <p>{{this.summary}}</p>
-        
-        </li>
+
       {{/each}}
 
-      {{!-- END LOOP --}}
+      {{! END LOOP }}
     </ul>
   </div>
 </div>
+<li class="list-group-item">
+  <div class="lead"><a href="/posts/{{this.postId}}">{{this.title}}</a></div>
+  <div>PostID:{{this.postId}}</div>
+  <p>{{this.summary}}</p>
+  <p>{{user.name}}Memories shared at {{this.createdAt}}</p>
+</li>

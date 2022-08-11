@@ -6,17 +6,13 @@ const  { User, Post, Comment} = require('../models')
 const jwt = require("jsonwebtoken")
 
 const bcrypt = require('bcrypt');
-const { request } = require("express");
+
 
 require("dotenv").config();
 
 
-// const connection = mysql.createConnection({
-// 	host     : 'localhost',
-// 	user     : 'root',
-// 	password : process.env.DB_PASSWORD,
-// 	database : process.env.DB_NAME
-// });
+
+
 
 
 
@@ -26,11 +22,11 @@ const PostComment = async (req, res, next) => {
     try {
         const comment = new Comment(req.body);
         comment.save().then(() => {
-            Post.findbyId(req.params.id)
+            Post.findByPk(req.params.postId)
         }).then((posts) => {
-            posts.comments.unshift(comment);
+            posts.summary.unshift(comment);
             return posts.save()
-        }).then(() => res.redirect("/") )
+        }).then(() => res.redirect("/posts/:postId") ) // back to main page
 
     } catch (error) {
         console.log(error)
@@ -63,6 +59,7 @@ const CreatePost =  async (req, res) =>{
 const FindPosts = async (req, res) => {
     try {
         const posts = await Post.findAll({raw:true});
+       
         // lead to page that shows all user's posts
         return res.render('posts-index', {posts})
     } catch (error) {
@@ -72,7 +69,7 @@ const FindPosts = async (req, res) => {
 // Single User's Post
 const UserPostPage = async (req, res) =>{
     try {
-        const posts = await Post.findByPk((req.params.id),{raw:true});
+        const posts = await Post.findByPk((req.params.postId),{raw:true});
         return res.render('posts-show', {posts})
     } catch (error) {
         return console.log(error.message)
@@ -86,7 +83,12 @@ const UserForm =  async( req, res) => {
     await res.render('create')
 }
 const LoginPage =  async( req, res) => {
-    await res.render('login')
+    if(req.session.logged_in) {
+        res.render("home")
+    } else {
+        res.render('login')
+    }
+    
 }
 // Register
 const RegisterPage = async( req, res) => {
@@ -131,15 +133,16 @@ function checkNotAuthenticated(req, res, next) {
 
 
 // Log in Handle
-const LoggedInPage = async( req, RegisterPage) => {
+const LoggedInPage = async( req, res) => {
     // do query
     await res.render("loggedin")
 }
 
-const LoginVerification =  async (req, res) => {
+const LoginVerification =  async (req, res ) => {
     
     try {
-      const userData = await User.findOne({ where: { email: req.body.email } });
+      const userData = await User.findOne({ where: { email: req.body.email } },
+        { attributes: ["name"] });
       
       if (!userData) {
         res
@@ -149,18 +152,20 @@ const LoginVerification =  async (req, res) => {
       }
       // validate password
       const validatePassword = await userData.checkPassword(req.body.password);
+      
       if (!validatePassword) {
         
         res.status(400).json({messasage:"invalid password"});
         return;
       }
-      req.session.save(() => {
-        req.session.user_id = userData.id;
-        req.session.logged_in = true;
+    //   req.session.save(() => {
+    //     req.session.user_id = userData.id;
+    //     req.session.logged_in = true;
         
-        res.json({ user: userData, message: 'You are now logged in!' });
-      });
-      return res.render("/posts/index")
+    //     res.json({ user: userData, message: 'You are now logged in!' });
+    //   })
+      
+      res.render("loggedin")
     } catch (err) {
       res.status(400).json(err);
     }
@@ -168,22 +173,18 @@ const LoginVerification =  async (req, res) => {
 
 
 
-// HomepageHandle
-const HomepageHandle = async (req, res) => {
-    
-}
-
+// 
 const LogOut = async (req, res) => {
     if(req.session.logged_in) {
         req.session.destroy(() =>{
             res.status(204).end()
         })
     }
-    res.clearCookie('nToken');
+    
     return res.redirect('/login');
 }
 
 
 
 module.exports = 
-{LogOut,allUsers,UserForm,LoginPage, RegisterPage, RegisterHandle, LoggedInPage, checkNotAuthenticated, SavePost, CreatePost,FindPosts,UserPostPage, LoginVerification, HomepageHandle, PostComment}
+{LogOut,allUsers,UserForm,LoginPage, RegisterPage, RegisterHandle, LoggedInPage, checkNotAuthenticated, SavePost, CreatePost,FindPosts,UserPostPage, LoginVerification,  PostComment}

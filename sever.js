@@ -8,6 +8,8 @@ const path = require('path');
 const session = require("express-session");
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 const sequelize = require('./config/connection');
+const helpers = require('./utils/helpers');
+const hbs = exphbs.create({ helpers });
 
 
 
@@ -34,9 +36,10 @@ app.use(session(sess))
 // PORT set up.
 
 const PORT = process.env.PORT || 3001;
+app.engine('handlebars', hbs.engine);
 app.use(cookieParser()) 
 app.use(express.json());
-app.use(express.urlencoded({extended:true}));
+app.use(express.urlencoded({extended:false}));
 app.use(express.static(path.join(__dirname,"public")));
 app.engine('hbs', exphbs.engine({extname:'.hbs'}));
 app.set("view engine", "hbs");
@@ -55,3 +58,4 @@ sequelize.sync({force:false}).then(() => {
 
 
 
+module.exports = app;

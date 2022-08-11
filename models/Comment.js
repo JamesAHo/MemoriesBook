@@ -6,17 +6,11 @@ class Comment extends Model {}
 Comment.init(
   {
     
-    content: {
-      type: DataTypes.STRING,
+    body: {
+      type: DataTypes.TEXT,
       allowNull: false,
-    },
-    user_id: {
-      type: DataTypes.INTEGER,
-      references: {
-          model: 'user',
-          key: 'id',
-      },
-  },
+    }
+
 
     
     
@@ -26,8 +20,8 @@ Comment.init(
   },
   {
     sequelize,
-    timestamps: false,
-   
+    timestamps: true,
+   tableName: 'comments',
     modelName: 'comment',
     
   }
