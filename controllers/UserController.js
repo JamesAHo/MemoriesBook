@@ -103,15 +103,10 @@ const RegisterHandle = async ( req, res) =>   {
         username:req.body.username,
         email: req.body.email,
         password: req.body.password,
-    }).then((user) => {
-        const token = jwt.sign({_id: user._id},process.env.JWT_SECRET_KEY, {expiresIn:"60 days"});
-        res.cookie('nToken', token, {maxAge: 600000, httpOnly: true})
-        
-        return  res.redirect("/login")
     })
 
    
-     
+    return  res.redirect("/login")
     } catch (error) {
         res.redirect("/register")
         console.log("not saved into database")
