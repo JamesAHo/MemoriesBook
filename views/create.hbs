@@ -1,0 +1,32 @@
+<link rel="stylesheet" href="/css/create.css">
+
+<nav class="navbar">
+        <div class="nav-wrapper">   
+        </div>
+</nav>
+<form action method="post">
+
+<div class="image">
+  <h1><strong>Create Memories</strong></h1>
+  
+  <div class="form-group">
+    <label for="caption">Add A Short Description</label>
+    <input type="text" name="caption" id="caption" class="form-controll"/>
+  </div>
+  <div class="form-group file-area">
+        <label for="images">Upload Your Memory Here!</label>
+    <input type="file" name="images" id="images" required="required" multiple="multiple"/>
+    <div class="file-dummy">
+      <div class="default">Please select some files</div>
+    </div>
+  </div>
+  
+  <div class="form-group">
+    <button type="submit">Upload images</button>
+  </div>
+</div>
+</form>
+
+<link href='https://fonts.googleapis.com/css?family=Lato:100,200,300,400,500,600,700' rel='stylesheet' type='text/css'>
+
+<a href="/loggedin" class="back-to-article" target="_blank">back to Home Page</a>

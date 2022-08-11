@@ -21,19 +21,10 @@ body{
     font-family: 'roboto', sans-serif;
 }
 
-.navbar{
 
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 110px;
-    background: #fff;
-    border-bottom: 1px solid #dfdfdf;
-    display: flex;
-    justify-content: center;
-    padding: 5px 0;
-}
+
+    
+
 
 .nav-wrapper{
     width: 70%;
@@ -56,6 +47,8 @@ body{
 }
 
 
+  
+
 .background {
   align-items: center;
   background: #eee;
@@ -75,6 +68,8 @@ body{
   text-transform: uppercase;
   width: 100vmin;
 
+  
+
 }
 
 .image {
@@ -88,13 +83,24 @@ body{
   width: 70vmin;
 
 
+
 }
 .button {
   transition-duration: 0.4s;
+
+
+  
+ 
+}
+.button {
+  transition-duration: 0.4s;
+  
 
 }
 
 .button:hover {
   background-color: #4CAF50; /* Green */
   color: white;
-} 
+
+
+}
