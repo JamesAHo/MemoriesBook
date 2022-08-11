@@ -8,10 +8,11 @@
       {{! // Make sure to forloop this #each }}
       {{#each posts}}
 
-        <div class="card col-sm-offset-1">
+        <div class="card row-sm">
           <img src="https://xsgames.co/randomusers/avatar.php?g=pixel" class="card-img-top" alt="..." />
           <div class="card-body">
             <a href="/posts/{{this.postId}}">{{this.title}}</a>
+            <div>PostID:{{this.postId}}</div>
             <p class="card-text">{{this.summary}}</p>
             <p class="card-text"><small class="text-muted">Last updated {{this.createdAt}}</small></p>
           </div>
