@@ -48,7 +48,7 @@ app.set("view engine", "hbs");
 app.use(router);
 // call sync() method 
 
-sequelize.sync({force:false}).then(() => {
+sequelize.sync({force:true}).then(() => {
     app.listen(PORT, () => console.log("Now listenting " + PORT))
 })
 
