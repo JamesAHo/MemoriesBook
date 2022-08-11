@@ -1,0 +1,24 @@
+<div class="row">
+  <div class="col-sm-6 col-sm-offset-3">
+
+    <div class="card" style="width: 18rem;">
+      <img src="https://source.unsplash.com/random/1" class="card-img-top" alt="..." />
+      <div class="card-body">
+        <h5 class="card-title" href="{{posts.postId}}">{{posts.title}}</h5>
+        
+        <p>{{posts.summary}}</p>
+        <a href="/posts/index">Back to Feed</a>
+      </div>
+    </div>
+
+    
+
+    
+
+    <form action="/posts/{{posts.postId}}/comments" method="post">
+      <div class="text-right">
+ 
+      </div>
+    </form>
+  </div>
+</div>

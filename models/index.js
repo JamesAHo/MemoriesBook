@@ -1,19 +1,38 @@
-const dbConfig = require("../config/db-config");
-const Sequelize = require("sequelize");
+const User = require('./User');
+const Post = require('./Post');
+const Comment = require('./Comment');
 
-const sequelize = new Sequelize(dbConfig.DATABASE, dbConfig.USER, dbConfig.PASSWORD, {
-    host: dbConfig.HOST,
-    dialect: dbConfig.DIALECT
+
+
+User.hasMany(Post, {
+  foreignKey: 'id',
+  onDelete: 'CASCADE'
 });
 
-const db = {};
-db.sequelize = sequelize;
-db.models = {};
-db.models.User = require("./User")(sequelize, Sequelize.DataTypes)
-db.models.Post = require("./Post")(sequelize, Sequelize.DataTypes)
-// make new model
+
+Post.belongsTo(User, {
+  foreignKey: 'id'
+});
+
+User.hasMany(Comment, {
+  foreignKey: 'comment_id',
+  onDelete: 'CASCADE'
+})
+
+Comment.belongsTo(User, {
+  foreignKey: 'comment_id',
+});
+
+//POST COMMENT RELATIONSHIP
+Post.hasMany(Comment, {
+  foreignKey: 'postId',
+  as:'comment'
+})
+Comment.belongsTo(Post, {
+  foreignKey: 'postId',
+  as: 'posts'
+})
 
 
+module.exports = { User, Post , Comment};
 
-
-module.exports = db;
