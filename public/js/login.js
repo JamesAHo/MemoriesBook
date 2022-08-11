@@ -1,9 +1,9 @@
-// const db = require("../models");
+
 
 // const loginFormHandle = async (event) => {
 //   event.preventDefault();
-//   const email = document.getElementById("email").value.trim();
-//   const password = document.getElementById("password").value.trim();
+//   const email = document.getElementById("#email-login").value.trim();
+//   const password = document.getElementById("#password-login").value.trim();
 
 //   if (email && password) {
 //     // send a post request to the API endpoint
@@ -16,7 +16,7 @@
 //     });
 //     console.log(response);
 //     if (response.ok) {
-//       document.location.replace("./posts/new");
+//       document.location.replace("/posts/new");
 //     } else {
 //       alert(response.statusText);
 //     }

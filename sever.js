@@ -8,13 +8,15 @@ const path = require('path');
 const session = require("express-session");
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 const sequelize = require('./config/connection');
+const helpers = require('./utils/helpers');
+const hbs = exphbs.create({ helpers });
 
 
 
 
 
 
-const user = require("./models/User");
+
 
 
 // SESSION
@@ -28,15 +30,16 @@ const sess = {
     })
   };
 
-// app.use(session(sess))
+app.use(session(sess))
 
 
 // PORT set up.
 
 const PORT = process.env.PORT || 3001;
+app.engine('handlebars', hbs.engine);
 app.use(cookieParser()) 
 app.use(express.json());
-app.use(express.urlencoded({extended:true}));
+app.use(express.urlencoded({extended:false}));
 app.use(express.static(path.join(__dirname,"public")));
 app.engine('hbs', exphbs.engine({extname:'.hbs'}));
 app.set("view engine", "hbs");
@@ -44,8 +47,8 @@ app.set("view engine", "hbs");
 // init all routes
 app.use(router);
 // call sync() method 
-// (async () => {  await db.sequelize.sync({force:false}); })();
-sequelize.sync({force:true}).then(() => {
+
+sequelize.sync({force:false}).then(() => {
     app.listen(PORT, () => console.log("Now listenting " + PORT))
 })
 
@@ -55,3 +58,4 @@ sequelize.sync({force:true}).then(() => {
 
 
 
+module.exports = app;

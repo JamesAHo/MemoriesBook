@@ -6,14 +6,25 @@ class Post extends Model { }
 
 Post.init(
     {
-
-        content: {
-            type: DataTypes.STRING,
+        
+        postId: {
+          type: DataTypes.INTEGER,
+          primaryKey: true,
+          autoIncrement : true,
+          
+          
+    
+        },
+        title: {
+            type: DataTypes.TEXT,
+            required: true,
+        },
+        summary: {
+            type: DataTypes.TEXT,
             allowNull: false,
+            
         },
-        description: {
-            type: DataTypes.STRING,
-        },
+       
         date_created: {
             type: DataTypes.DATE,
             allowNull: false,
@@ -25,6 +36,7 @@ Post.init(
             references: {
                 model: 'user',
                 key: 'id',
+                
             },
         },
     },
@@ -32,11 +44,9 @@ Post.init(
         sequelize,
         timestamps: true,
         freezeTableName: false,
-        underscored: true,
-        modelName: 'Post',
-    },
-    {
-        freezeTableName: false,
+        underscored: false,
+        modelName: 'posts',
+        tableName: 'posts',
     }
     );
 
