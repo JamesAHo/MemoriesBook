@@ -1,31 +1,43 @@
+<link rel="stylesheet" href="/css/create.css">
 
-<div class="row">
-  <div class="col-sm-4 col-sm-offset-4">
-    <form action="/posts/new" method="post">
-      <div class="form-group">
-        <label for="post-title">Title</label>
-        <input
+<nav class="navbar">
+        <div class="nav-wrapper">   
+        </div>
+</nav>
+<form action method="post">
+
+<div class="image">
+  <h1><strong>Create Memories</strong></h1>
+  
+  <div class="form-group">
+    <label for="post-title">Add a Title Here!</label>
+    <input
           type="text"
           name="title"
           class="form-control"
           id="post-title"
           placeholder="Title"
         />
-      </div>
-      
-      </div>
-      <div class="form-group">
-        <label for="post-summary">Summary</label>
+  </div>
+  <div class="form-group file-area">
+        <label for="post-summary">Upload Your Memory Here!</label>
         <textarea
           name="summary"
           class="form-control"
           id="post-summary"
           placeholder="Summary"
         ></textarea>
-      </div>
-      <div class="text-right">
-        <button type="submit" class="btn btn-primary">Create Post</button>
-      </div>
-    </form>
+    <div class="file-dummy">
+      <div class="default">Please select some files</div>
+    </div>
+  </div>
+  
+  <div class="form-group">
+    <button type="submit">Upload</button>
   </div>
 </div>
+</form>
+
+<link href='https://fonts.googleapis.com/css?family=Lato:100,200,300,400,500,600,700' rel='stylesheet' type='text/css'>
+
+<a href="/login" class="back-to-article" target="_blank">back to Home Page</a>
