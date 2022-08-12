@@ -10,17 +10,18 @@ const should = chai.should();
 chai.use(chaiHttp);
 
 describe('site', function () {
-  // Describe what you are testing
+  // describe the test 
   it('Should have home page', function (done) {
-    // Describe what should happen
-    // In this case we test that the home page loads
+    // describe what would happen to the test
+    
     agent
       .get('/').end(function (err, res) {
         if (err) {
           return done(err);
         }
             res.should.have.status(200)
-        return done(); // Call done if the test completed successfully.
+        return done(); 
+        
       });
   });
 });

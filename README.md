@@ -29,3 +29,7 @@ When run the app, user will lead to a introduction page to get started.
 
 
 ![landing page demo](./mock/mock.jpg)
+
+# Deployment
+Repository: https://github.com/JamesAHo/MemoriesBook
+Deployed Links: https://memoriesbookk.herokuapp.com/
