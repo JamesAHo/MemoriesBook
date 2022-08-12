@@ -1,7 +1,5 @@
-
 require("dotenv").config();
 const  { User, Post, Comment} = require('../models')
-
 
 const jwt = require("jsonwebtoken")
 
@@ -105,15 +103,10 @@ const RegisterHandle = async ( req, res) =>   {
         username:req.body.username,
         email: req.body.email,
         password: req.body.password,
-    }).then((user) => {
-        const token = jwt.sign({_id: user._id}, process.env.SECRET, {expiresIn:"60 days"});
-        res.cookie('nToken', token, {maxAge: 600000, httpOnly: true})
-        console.log(req.body)
-        return  res.redirect("/login")
     })
 
    
-     
+    return  res.redirect("/login")
     } catch (error) {
         res.redirect("/register")
         console.log("not saved into database")
@@ -163,10 +156,12 @@ const LoginVerification =  async (req, res ) => {
     //     req.session.logged_in = true;
         
     //     res.json({ user: userData, message: 'You are now logged in!' });
+    //     res.render("loggedin")
     //   })
       
       res.render("loggedin")
     } catch (err) {
+        
       res.status(400).json(err);
     }
   };
