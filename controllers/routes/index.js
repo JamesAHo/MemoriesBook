@@ -30,9 +30,9 @@ router.get("/", async (req, res) => {
 router.get("/posts/new", CreatePost)
 router.post("/posts/new", SavePost)
 // View all posts
-router.get("/posts/index", FindPosts);
+router.get("/posts/index",withAuth, FindPosts);
 // View Specific single user posts
-router.get("/posts/:postId",UserPostPage)
+router.get("/posts/:postId",withAuth,UserPostPage)
 
 
 // Login Handle
@@ -58,18 +58,18 @@ router.post("/register", RegisterHandle )
 router.post("/posts/:postId/comments", PostComment)
 
 
-// logout
+logout
 
-// router.post('/logout', (req, res) => {
-//     if (req.session.logged_in) {
-//       req.session.destroy(() => {
-//         res.status(204).end();
-//       });
-//       return res.redirect('/login');
-//     } else {
-//       res.status(404).end();
-//     }
-//   });
+router.post('/logout', (req, res) => {
+    if (req.session.logged_in) {
+      req.session.destroy(() => {
+        res.status(204).end();
+      });
+      return res.redirect('/login');
+    } else {
+      res.status(404).end();
+    }
+  });
 
 
 
