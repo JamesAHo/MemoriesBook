@@ -58,7 +58,7 @@ router.post("/register", RegisterHandle )
 router.post("/posts/:postId/comments", PostComment)
 
 
-logout
+//logout
 
 router.post('/logout', (req, res) => {
     if (req.session.logged_in) {
